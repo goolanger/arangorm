@@ -9,7 +9,7 @@ import (
 var app *Instance
 
 func init() {
-	instance, err := New("SECRET_KEY_FOR_TESTING", Config{
+	instance, err := New(Config{
 		Hosts: []string{"http://localhost:8529"},
 		User:  "root",
 		Pass:  "alojomora",

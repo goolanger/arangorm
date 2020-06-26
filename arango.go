@@ -4,14 +4,13 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+
 	driver "github.com/arangodb/go-driver"
 	"github.com/arangodb/go-driver/http"
-	"github.com/go-chi/jwtauth"
 )
 
 type Instance struct {
 	DB    driver.Database
-	JWT   *jwtauth.JWTAuth
 	graph string
 }
 
@@ -22,9 +21,7 @@ type Config struct {
 	Db    string
 }
 
-func New(secret string, config Config, graphName string) (*Instance, error) {
-	// CreateVertex JWT handler app.
-	jwt := jwtauth.New("HS256", []byte(secret), nil)
+func New(config Config, graphName string) (*Instance, error) {
 	var db driver.Database
 
 	// Open the connection to the Arango sever
@@ -80,7 +77,7 @@ func New(secret string, config Config, graphName string) (*Instance, error) {
 		}
 	}
 
-	return &Instance{db, jwt, graphName}, nil
+	return &Instance{db, graphName}, nil
 }
 
 func (app *Instance) LoadGraph(options driver.CreateGraphOptions) error {
